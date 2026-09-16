@@ -26,6 +26,7 @@ function sendToGoogleSheets(data: {
 export default function Register() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMsg, setErrorMsg] = useState('');
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -177,6 +178,60 @@ export default function Register() {
               tabIndex={-1}
               type="text"
             />
+
+            <div className="mt-6">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  className="mt-0.5 h-4 w-4 shrink-0 accent-primary-500 cursor-pointer"
+                  name="privacy_consent"
+                  required
+                  type="checkbox"
+                />
+                <span className="text-xs md:text-sm text-foreground-300 leading-relaxed">
+                  개인정보 수집·이용에 동의합니다. <span className="text-primary-500">(필수)</span>
+                </span>
+              </label>
+
+              <div className="mt-3 pl-7">
+                <button
+                  className="inline-flex items-center gap-1 text-xs text-foreground-400 hover:text-primary-500 transition-colors cursor-pointer whitespace-nowrap"
+                  onClick={() => setShowPrivacy((prev) => !prev)}
+                  type="button"
+                >
+                  개인정보 처리방침 {showPrivacy ? '접기' : '자세히 보기'}
+                  <i
+                    className={`ri-arrow-down-s-line text-sm transition-transform ${showPrivacy ? 'rotate-180' : ''}`}
+                  />
+                </button>
+
+                {showPrivacy && (
+                  <div className="mt-3 p-4 bg-background-50/60 border border-background-200/30 rounded-md text-[11px] leading-relaxed text-foreground-400 space-y-2">
+                    <p className="font-semibold text-foreground-300">개인정보 수집·이용 동의서</p>
+                    <p>
+                      <strong className="text-foreground-300">1. 수집하는 개인정보 항목</strong><br />
+                      성명, 연락처(휴대전화), 방문 희망일자, 문의내용
+                    </p>
+                    <p>
+                      <strong className="text-foreground-300">2. 수집·이용 목적</strong><br />
+                      분양 및 임대 상담 안내, 방문 예약, 고객 문의 응대, 마케팅 정보 제공
+                    </p>
+                    <p>
+                      <strong className="text-foreground-300">3. 보유·이용 기간</strong><br />
+                      상담 종료 후 1년 (단, 관련 법령에 따라 보존이 필요한 경우 해당 기간까지 보관)
+                    </p>
+                    <p>
+                      <strong className="text-foreground-300">4. 동의 거부 권리</strong><br />
+                      귀하는 개인정보 수집·이용에 대한 동의를 거부할 권리가 있으며, 동의를 거부할 경우
+                      상담 및 관심고객 등록 서비스 이용이 제한될 수 있습니다.
+                    </p>
+                    <p>
+                      <strong className="text-foreground-300">5. 수집 주체</strong><br />
+                      파주 헤이리 오베르원
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
 
             <div className="mt-7">
               <button
